@@ -1,6 +1,4 @@
 # Towards Universal AutoML: A Hybrid Meta-Learning Framework for Cross-Domain Hyperparameter Optimization
-
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Conference](https://img.shields.io/badge/Conference-CODS_COMAD_'25-purple)
 
@@ -75,11 +73,11 @@ We validated our framework using a strict **Leave-One-Dataset-Out (LODO)** proto
 ### Key Findings
 The hybrid approach consistently delivered the most reliable generalization across all domains. The `EMBED` (embeddings only) and `META` (meta-features only) baselines were competitive, but the `HYBRID` model achieved the best overall performance in ranking hyperparameters correctly.
 
-| Variant | Spearman ($\rho$) | Pearson (r) | MAE |
+| Variant | Spearman  | Pearson (r) | MAE |
 | :--- | :--- | :--- | :--- |
-| EMBED | 0.772 ($\pm$0.107) | 0.878 | 0.036 |
-| META | 0.635 ($\pm$0.416) | 0.594 | 0.052 |
-| **HYBRID** | **0.807 ($\pm$0.059)** | **0.803** | **0.059** |
+| EMBED | 0.772  | 0.878 | 0.036 |
+| META | 0.635  | 0.594 | 0.052 |
+| **HYBRID** | **0.807** | **0.803** | **0.059** |
 *Table: Aggregate LODO performance metrics. Spearman correlation is the primary metric for ranking quality.*
 
 These results confirm our central hypothesis: combining statistical meta-features with learned embeddings creates a single, robust representation that generalizes effectively across domains.
