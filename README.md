@@ -9,6 +9,8 @@ This repository provides a comprehensive overview of the research paper "Towards
 The promise of Artificial Intelligence is often gated by the performance of its underlying machine learning models. This performance, in turn, is critically dependent on a model's hyperparameters—the configuration settings that are not learned from the data itself. The process of finding the best hyperparameters, known as **Hyperparameter Optimization (HPO)**, is a major bottleneck in the practical application of machine learning. It is a computationally expensive, time-consuming, and frustratingly dataset-specific endeavor.
 
 Meta-learning, or "learning to learn," offers a potential solution by leveraging experience from past HPO tasks to inform and accelerate new ones. However, existing meta-learning approaches have critical limitations. Some rely on simple dataset statistics that fail to capture deep structural similarities, while others use powerful but uninterpretable "black-box" embeddings that struggle to generalize across different data types (modalities) like tabular data, text, and images.
+<img width="480" height="360" alt="image" src="https://github.com/user-attachments/assets/f95c0a78-5d3d-4b02-8a4b-1cf3dc1b02ca" />
+
 
 This work introduces and validates a **hybrid meta-learning framework** that resolves this trade-off. We combine hand-crafted, interpretable **statistical meta-features** with expressive, automatically **learned dataset embeddings**. This hybrid representation allows our system to understand datasets at multiple levels of abstraction. We use this representation to train a model that can accurately predict the best-performing hyperparameters for entirely new datasets, even those from modalities it has never seen before.
 
@@ -43,6 +45,8 @@ These are **hand-crafted statistical descriptors** that provide a high-level, hu
     * **Statistical Moments:** The mean, standard deviation, **skewness** (asymmetry of the data distribution), and **kurtosis** (tailedness of the distribution) of the features.
     * **Correlation Structure:** The average absolute pairwise correlation between features.
 * **Why they are crucial:** These features make our model **explainable**. They allow us to understand *why* the model makes a certain recommendation, connecting it back to tangible properties of the data.
+  <img width="410" height="223" alt="image" src="https://github.com/user-attachments/assets/01b6c467-7820-4d10-ac46-97ebfdefed7e" />
+
 
 #### **Part B: Learned Dataset Embeddings (The Deep Structural Fingerprint)**
 These are dense, low-dimensional vectors **learned automatically by a neural network**. They capture deep, complex, and non-linear patterns within the data that simple statistics cannot. Think of this as the dataset's unique DNA.
@@ -57,6 +61,8 @@ These are dense, low-dimensional vectors **learned automatically by a neural net
 With our hybrid representation, we train a model to predict HPO performance. Instead of predicting an exact accuracy score (a difficult regression task), we train a **RankNet** to perform a simpler, more robust task: **pairwise ranking**.
 
 * **Architecture:** The RankNet is a simple three-layer Multi-Layer Perceptron (MLP).
+  <img width="243" height="316" alt="image" src="https://github.com/user-attachments/assets/02b41877-7485-4929-831e-1265b11102aa" />
+
 * **Input:** The input is a concatenated vector containing the **hybrid dataset representation** and the **encoded hyperparameter values** of a given trial.
 * **Task:** The model is trained on pairs of HPO trials from the same dataset. Its goal is to output a higher score for the trial that achieved better accuracy.
 * **Loss Function:** We train it as a binary classification problem using `BCEWithLogitsLoss`.
@@ -67,6 +73,7 @@ With our hybrid representation, we train a model to predict HPO performance. Ins
 
 ### 3. Few-Shot Calibration: Making it Practical
 The RankNet produces a relative score, not an absolute accuracy prediction. To bridge this gap for a new dataset, we use an efficient **few-shot calibration** process.
+<img width="790" height="490" alt="image" src="https://github.com/user-attachments/assets/76e3b576-92a3-4225-9dca-6a877bdd0791" />
 
 1.  **Arriving at a New Dataset:** A user brings a new dataset for which they want to find the best hyperparameters.
 2.  **Creating a Support Set:** We run a very small number of HPO trials (e.g., up to 8) with randomly chosen hyperparameters. This is the "support set" and is extremely cheap to generate.
